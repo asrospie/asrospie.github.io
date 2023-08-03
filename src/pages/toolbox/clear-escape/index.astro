@@ -1,0 +1,76 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+const title = 'JSON Formatter';
+---
+
+<Layout title={title}>
+    <h1>Clear & Escape</h1>
+    <textarea name="input" id="input" cols="30" rows="10"></textarea>
+    <div class="space-around">
+        <div class="grid">
+            <a href="" role="button" id="clear-whitespace">Clear Whitespace</a>
+            <a href="" role="button" id="escape-value">Escape / Unescape</a>
+            <a href="" role="button" id="copy-value">Copy</a>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    let escaped = false;
+    function clearWhitespace(event: Event) {
+        event.preventDefault();
+        let input = getInput();
+
+        input!.value = input!.value.replaceAll(/\s+/g, ''); 
+    }
+
+    function escapeValue(event: Event) {
+        event.preventDefault();
+        let input = getInput();
+        if (escaped) {
+            input!.value = input!.value.replaceAll(/\\\"/g, '"');
+            escaped = false;
+        } else {
+            input!.value = input!.value.replaceAll(/\"/g, '\\"');
+            escaped = true;
+        }
+    }
+
+
+    function getInput() : HTMLInputElement {
+        return document.getElementById('input') as HTMLInputElement;
+    }
+
+    function copyToClipboard(event: Event) {
+        event.preventDefault();
+        let input = getInput();
+
+        navigator.clipboard.writeText(input.value)
+            .then(function() {
+                alert('Copied!');
+            }, function(err) {
+                alert(err);
+            });
+    }
+
+    const clearWhitespaceBtn = document.getElementById('clear-whitespace');
+    clearWhitespaceBtn?.addEventListener('click', clearWhitespace);
+
+    const escapeBtn = document.getElementById('escape-value');
+    escapeBtn?.addEventListener('click', escapeValue);
+
+    const copyBtn = document.getElementById('copy-value');
+    copyBtn?.addEventListener('click', copyToClipboard);
+
+</script>
+
+<style>
+    .editor {
+        height: 500px;
+    }
+
+    .space-around {
+        margin: 1rem;
+    }
+</style>

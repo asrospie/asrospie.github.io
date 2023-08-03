@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolboxCards from '../../components/ToolboxCards.astro';
+
+interface Todo {
+	id: string;
+	description: string;
+	checked: boolean;
+};
+
+const todos: Todo[] = [
+	{
+		id: 'json-editor',
+		description: 'Clear & Escape', 
+		checked: true
+	},
+	{
+		id: 'config-files',
+		description: 'Configuration files for Helix editor.', 
+		checked: false 
+	},
+	{
+		id: 'simple-db',
+		description: 'Simple key value store db w/ auth', 
+		checked: false
+	}
+];
+---
+
+<Layout title="Alec Dev">
+	<main>
+		<h1>The Developer's Toolbox</h1>	
+		<p>This website is focused on serving simple and useful tools for developers.</p>
+		<ToolboxCards />
+		</div>
+		<h2>Future Plans:</h2>
+		<fieldset>
+			{todos.map(obj => (
+				<label for={obj.id}>
+					<input
+						disabled
+						checked={obj.checked}
+						type="checkbox"
+						id={obj.id}
+						name={obj.id}
+					/>
+					{obj.description}
+				</label>
+			))}
+		</fieldset>
+	</main>
+</Layout>
+
+

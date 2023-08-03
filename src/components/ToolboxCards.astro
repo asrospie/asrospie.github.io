@@ -1,0 +1,38 @@
+---
+interface Project {
+    title: string;
+    description: string;
+    link: string;
+}
+
+const projects: Project[] = [
+	{
+		title: 'Clear & Escape',
+		description: 'Simple tool that clears whitespace and escapes/unescapes double quoted strings.',
+		link: '/toolbox/clear-escape'
+	}
+];
+---
+
+<div class="flex-row">
+    {projects.map(obj => (
+        <article class="std-max-width card-max-height">
+            <header>{obj.title}</header>
+            {obj.description}
+            <footer><a href={obj.link}>Go</a></footer>
+        </article>
+    ))}
+</div>
+
+
+<style>
+    .std-max-width {
+        max-width: 600px;
+    }
+
+    .flex-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+</style>
