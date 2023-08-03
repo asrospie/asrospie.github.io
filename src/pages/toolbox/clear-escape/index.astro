@@ -1,18 +1,18 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 
-const title = 'JSON Formatter';
+const title = 'Clear & Escape';
 ---
 
 <Layout title={title}>
     <h1>Clear & Escape</h1>
     <textarea name="input" id="input" cols="30" rows="10"></textarea>
     <div class="space-around">
-        <div class="grid">
-            <a href="" role="button" id="clear-whitespace">Clear Whitespace</a>
-            <a href="" role="button" id="escape-value">Escape / Unescape</a>
-            <a href="" role="button" id="copy-value">Copy</a>
-        </div>
+        <a href="" role="button" id="clear-whitespace">Clear Whitespace</a>
+        <a href="" role="button" id="escape-value">Escape / Unescape</a>
+        <a href="" role="button" id="swap-single">Dict to JSON</a>
+        <a href="" role="button" id="swap-double">JSON to Dict</a>
+        <a href="" role="button" id="copy-value">Copy</a>
     </div>
 </Layout>
 
@@ -54,6 +54,20 @@ const title = 'JSON Formatter';
             });
     }
 
+    function swapSingle(event: Event) {
+        event.preventDefault();
+        let input = getInput();
+
+        input!.value = input!.value.replaceAll(/\'/g, '\"');
+    }
+
+    function swapDouble(event: Event) {
+        event.preventDefault();
+        let input = getInput();
+
+        input!.value = input!.value.replaceAll(/\"/g, '\'');
+    }
+
     const clearWhitespaceBtn = document.getElementById('clear-whitespace');
     clearWhitespaceBtn?.addEventListener('click', clearWhitespace);
 
@@ -63,6 +77,26 @@ const title = 'JSON Formatter';
     const copyBtn = document.getElementById('copy-value');
     copyBtn?.addEventListener('click', copyToClipboard);
 
+    const dictJSON = document.getElementById('swap-single');
+    dictJSON?.addEventListener('click', swapSingle);
+
+    const jsonDict = document.getElementById('swap-double');
+    jsonDict?.addEventListener('click', swapDouble);
+
+
+    // enable tabs in textarea
+    getInput().addEventListener('keydown', event => {
+        if (event.key == 'Tab') {
+            event.preventDefault();
+            let input = getInput();
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            
+            input.value = input.value.substring(0, start!) + '    ' + input.value.substring(end!);
+
+            input.selectionStart = input.selectionEnd = start! + 4;
+        }
+    });
 </script>
 
 <style>
@@ -71,6 +105,11 @@ const title = 'JSON Formatter';
     }
 
     .space-around {
-        margin: 1rem;
+        /* margin: 1rem; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+        flex-wrap: wrap;
     }
 </style>
