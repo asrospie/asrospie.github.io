@@ -9,7 +9,8 @@ const title = 'Clear & Escape';
     <textarea name="input" id="input" cols="30" rows="10"></textarea>
     <div class="space-around">
         <a href="" role="button" id="clear-whitespace">Clear Whitespace</a>
-        <a href="" role="button" id="escape-value">Escape / Unescape</a>
+        <a href="" role="button" id="escape-value">Escape</a>
+        <a href="" role="button" id="unescape-value">Unescape</a>
         <a href="" role="button" id="swap-single">Dict to JSON</a>
         <a href="" role="button" id="swap-double">JSON to Dict</a>
         <a href="" role="button" id="copy-value">Copy</a>
@@ -17,7 +18,6 @@ const title = 'Clear & Escape';
 </Layout>
 
 <script>
-    let escaped = false;
     function clearWhitespace(event: Event) {
         event.preventDefault();
         let input = getInput();
@@ -28,13 +28,13 @@ const title = 'Clear & Escape';
     function escapeValue(event: Event) {
         event.preventDefault();
         let input = getInput();
-        if (escaped) {
-            input!.value = input!.value.replaceAll(/\\\"/g, '"');
-            escaped = false;
-        } else {
-            input!.value = input!.value.replaceAll(/\"/g, '\\"');
-            escaped = true;
-        }
+        input!.value = input!.value.replaceAll(/\"/g, '\\"');
+    }
+
+    function unescapeValue(event: Event) {
+        event.preventDefault();
+        let input = getInput();
+        input!.value = input!.value.replaceAll(/\\\"/g, '"');
     }
 
 
@@ -73,6 +73,9 @@ const title = 'Clear & Escape';
 
     const escapeBtn = document.getElementById('escape-value');
     escapeBtn?.addEventListener('click', escapeValue);
+
+    const unescapeBtn = document.getElementById('unescape-value');
+    unescapeBtn?.addEventListener('click', unescapeValue)
 
     const copyBtn = document.getElementById('copy-value');
     copyBtn?.addEventListener('click', copyToClipboard);
